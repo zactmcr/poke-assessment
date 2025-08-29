@@ -47,12 +47,9 @@ defineEmits(['update:modelValue']);
   box-shadow: 0 0 0 4px rgba(227, 21, 13, 0.15);
 }
 
-/* Responsive adjustment for small screens */
 @media (max-width: 768px) {
   .search-container {
-    /* On small screens, calculate width to leave space for buttons */
     width: calc(100% - 110px);
-    /* Adjust position to be left-aligned */
     left: 0;
     transform: translateY(-50%);
   }
