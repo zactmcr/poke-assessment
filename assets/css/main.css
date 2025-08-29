@@ -1,0 +1,30 @@
+body {
+  font-family: sans-serif;
+  background-color: #f0f0f0;
+}
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.pokemon-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+  padding: 1rem;
+  background-color: white;
+  text-decoration: none;
+  color: black;
+  transition: transform 0.2s;
+}
+
+.pokemon-card:hover {
+  transform: scale(1.05);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
