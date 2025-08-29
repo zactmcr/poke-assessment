@@ -72,13 +72,23 @@ body {
   box-shadow: 0 0 0 4px rgba(227, 21, 13, 0.15);
 }
 
+/* ---- Grid / List Layout ---- */
 .pokemon-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 1.5rem;
   padding: 0 0 2rem;
 }
 
+.pokemon-grid.is-list-view {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* ---- Card Base Styles (Defaults to Grid View) ---- */
 .pokemon-card {
   border: 2px solid var(--card-border);
   border-radius: 14px;
@@ -97,20 +107,12 @@ body {
     0 8px 16px var(--shadow-color-medium);
 }
 
-.pokemon-card:hover {
-  transform: translateY(-6px);
-  border-color: var(--poke-red-accent);
-  box-shadow:
-    0 4px 8px var(--shadow-color-light),
-    0 15px 25px var(--shadow-color-medium);
+.card-image {
+  width: 96px;
+  height: 96px;
+  margin-bottom: 0.5rem;
 }
 
-.card-image {
-  width: 112px;
-  height: 112px;
-  object-fit: contain;
-  margin-bottom: .55rem;
-}
 .card-name {
   margin: 0;
   font-size: 1.1rem;
@@ -118,12 +120,52 @@ body {
   font-weight: 500;
 }
 
+/* ---- List View Overrides ---- */
+.pokemon-card.is-list-view {
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 0.75rem;
+}
+
+.pokemon-card.is-list-view .card-image {
+  width: 60px;
+  height: 60px;
+  margin-right: 1.5rem;
+  margin-bottom: 0;
+}
+
+.pokemon-card.is-list-view .card-name {
+  font-size: 1.2rem;
+}
+
+/* ---- Detail Page ---- */
 .profile-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 2rem;
   min-height: 80vh;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 2rem;
+  padding: 0.8rem 2.5rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #ffffff;
+  background-color: #3498db;
+  border: none;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.back-link:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
 }
 
 .pokemon-profile {
@@ -162,4 +204,17 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .pokemon-card { transition: none; }
   .pokemon-card:hover { transform: none; box-shadow: none; }
+}
+
+.card-id {
+  display: none; /* Hidden by default in grid view */
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: var(--muted-text);
+  margin-left: auto; /* This pushes it to the far right */
+  padding-left: 1rem; /* Adds some space between the name and the number */
+}
+
+.pokemon-card.is-list-view .card-id {
+  display: block; /* Only show it in list view */
 }

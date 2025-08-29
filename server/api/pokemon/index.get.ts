@@ -4,7 +4,10 @@ export default defineEventHandler(async (event) => {
     const listResponse = await $fetch<{ results: { name: string; url: string }[] }>(listUrl);
 
     const detailPromises = listResponse.results.map(pokemon => {
-      return $fetch<{ sprites: { other: { 'official-artwork': { front_default: string | null } } } }>(pokemon.url);
+      return $fetch<{
+        id: number;
+        sprites: { other: { 'official-artwork': { front_default: string | null } } };
+      }>(pokemon.url);
     });
 
     const detailResponses = await Promise.all(detailPromises);
@@ -12,6 +15,7 @@ export default defineEventHandler(async (event) => {
     const pokemonData = listResponse.results.map((pokemon, index) => ({
       name: pokemon.name,
       thumbnail: detailResponses[index].sprites.other['official-artwork'].front_default,
+      id: detailResponses[index].id,
     }));
 
     return pokemonData;
