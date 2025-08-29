@@ -34,16 +34,3 @@ const filteredPokemon = computed(() => {
   );
 });
 </script>
-
-<style scoped>
-.container {
-  text-align: center;
-  padding: 1rem;
-}
-
-.title {
-  font-size: 3rem;
-  color: #a5b4fc;
-  margin-bottom: 2rem;
-}
-</style>

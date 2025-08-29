@@ -17,10 +17,3 @@ defineProps({
   },
 });
 </script>
-
-<style scoped>
-.pokemon-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(74, 222, 128, 0.5);
-}
-</style>
