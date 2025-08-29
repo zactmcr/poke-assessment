@@ -24,14 +24,3 @@ defineProps({
   },
 });
 </script>
-
-<style scoped>
-.pokemon-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 1rem;
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-</style>

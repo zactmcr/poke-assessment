@@ -1,18 +1,13 @@
 <template>
   <div class="container">
     <h1 class="title">Pokémon Finder</h1>
-
     <SearchBar v-model="searchTerm" />
 
-    <div v-if="pending">
-      <p>Loading Pokémon...</p>
-    </div>
-
-    <div v-else-if="error">
+    <div v-if="error">
       <p>Could not load the list of Pokémon. Please try refreshing the page.</p>
     </div>
 
-    <PokemonList v-else-if="filteredPokemon" :pokemon="filteredPokemon" />
+    <PokemonList v-else :pokemon="filteredPokemon" />
   </div>
 </template>
 
@@ -26,19 +21,14 @@ type Pokemon = {
   thumbnail: string;
 };
 
+// Revert to the original, fast SSR-friendly useFetch
 const { data: pokemonList, pending, error } = await useFetch<Pokemon[]>('/api/pokemon');
 
 const searchTerm = ref('');
 
 const filteredPokemon = computed(() => {
-  if (!pokemonList.value) {
-    return [];
-  }
-
-  if (!searchTerm.value) {
-    return pokemonList.value;
-  }
-
+  if (!pokemonList.value) return [];
+  if (!searchTerm.value) return pokemonList.value;
   return pokemonList.value.filter(pokemon =>
     pokemon.name.toLowerCase().includes(searchTerm.value.toLowerCase())
   );
