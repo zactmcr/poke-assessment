@@ -8,7 +8,7 @@
     </div>
 
     <div class="content-area">
-      <div v-if="(initialPending || searchIsLoading) && pokemonToDisplay.length === 0">
+      <div v-if="isClientMounted && (initialPending || searchIsLoading) && pokemonToDisplay.length === 0">
         <Loader :text="searchIsLoading ? 'Searching...' : 'Loading Pokedex...'" />
       </div>
       
@@ -24,7 +24,7 @@
 
       <div ref="loadMoreTrigger" v-if="hasMore && !initialPending"></div>
 
-      <div v-if="isLoadingMore && pokemonToDisplay.length > 0" class="loading-more-indicator">
+      <div v-if="isClientMounted && isLoadingMore && pokemonToDisplay.length > 0" class="loading-more-indicator">
         <Loader text="Loading more..." />
       </div>
     </div>
@@ -51,6 +51,7 @@ const initialPending = ref(true);
 const searchIsLoading = ref(false);
 const isLoadingMore = ref(false);
 const error = ref<Error | null>(null);
+const isClientMounted = ref(false);
 
 const offset = ref(0);
 const hasMore = ref(true);
@@ -99,6 +100,7 @@ const loadMoreTrigger = ref<HTMLElement | null>(null);
 let observer: IntersectionObserver;
 
 onMounted(() => {
+  isClientMounted.value = true;
   loadMorePokemon();
   observer = new IntersectionObserver(
     (entries) => {
