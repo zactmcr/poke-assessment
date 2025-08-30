@@ -10,7 +10,7 @@
 
     <div v-else-if="pokemon">
       <NuxtLink to="/" class="back-link">
-        Back to Pokédex
+        Back to Finder
       </NuxtLink>
 
       <div class="pokemon-profile">

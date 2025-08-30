@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: 'Pokémon Finder',
+      title: 'Pokemon Finder',
       link: [
         { rel: 'icon', type: 'image/svg+xml', href: '/pokeball.svg' }
       ]

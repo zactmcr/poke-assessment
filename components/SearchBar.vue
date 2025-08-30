@@ -2,7 +2,7 @@
   <div class="search-container">
     <input
       type="text"
-      placeholder="Search Pokémon..."
+      placeholder="Search Pokemon..."
       class="search-input"
       :value="modelValue"
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"

@@ -1,7 +1,15 @@
 export default defineEventHandler(async (event) => {
   try {
-    const listUrl = 'https://pokeapi.co/api/v2/pokemon?limit=60';
+    const query = getQuery(event);
+    const offset = parseInt(query.offset as string) || 0;
+    const limit = 60;
+
+    const listUrl = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`;
     const listResponse = await $fetch<{ results: { name: string; url: string }[] }>(listUrl);
+
+    if (listResponse.results.length === 0) {
+      return [];
+    }
 
     const detailPromises = listResponse.results.map(pokemon => {
       return $fetch<{
@@ -12,19 +20,17 @@ export default defineEventHandler(async (event) => {
 
     const detailResponses = await Promise.all(detailPromises);
 
-    const pokemonData = listResponse.results.map((pokemon, index) => ({
-      name: pokemon.name,
-      thumbnail: detailResponses[index].sprites.other['official-artwork'].front_default,
-      id: detailResponses[index].id,
+    return detailResponses.map((details, index) => ({
+      name: listResponse.results[index].name,
+      id: details.id,
+      thumbnail: details.sprites.other['official-artwork'].front_default,
     }));
 
-    return pokemonData;
-
   } catch (error) {
-    console.error('Error fetching Pokémon list:', error);
+    console.error('Error fetching Pokemon list:', error);
     throw createError({
       statusCode: 500,
-      statusMessage: 'Failed to fetch data from the Pokémon API.',
+      statusMessage: 'Failed to fetch data from the Pokemon API.',
     });
   }
 });

@@ -1,5 +1,3 @@
-// server/api/pokemon/[name].get.ts
-
 export default defineEventHandler(async (event) => {
   try {
     const pokemonName = getRouterParam(event, 'name');
@@ -29,10 +27,10 @@ export default defineEventHandler(async (event) => {
     };
 
   } catch (error) {
-    console.error(`Error fetching details for Pokémon:`, error);
+    console.error(`Error fetching details for Pokemon:`, error);
     throw createError({
       statusCode: 404,
-      statusMessage: 'Pokémon not found.',
+      statusMessage: 'Pokemon not found.',
     });
   }
 });

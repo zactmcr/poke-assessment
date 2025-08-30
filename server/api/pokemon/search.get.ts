@@ -2,7 +2,6 @@ let allPokemonCache: { name: string; url: string }[] | null = null;
 
 async function fetchAllPokemon() {
   if (!allPokemonCache) {
-    console.log('Fetching and caching all Pokémon names...');
     const response = await $fetch<{ results: { name: string; url: string }[] }>(
       'https://pokeapi.co/api/v2/pokemon?limit=1302'
     );
@@ -15,18 +14,21 @@ export default defineEventHandler(async (event) => {
   try {
     const query = getQuery(event);
     const searchTerm = (query.q as string)?.toLowerCase();
+    const offset = parseInt(query.offset as string) || 0;
+    const limit = 60;
 
     if (!searchTerm) {
-      return [];
+      return { results: [], total: 0 };
     }
 
     const allPokemon = await fetchAllPokemon();
     const allMatchingPokemon = allPokemon.filter(p => p.name.includes(searchTerm));
+    const total = allMatchingPokemon.length;
 
-    const paginatedMatches = allMatchingPokemon.slice(0, 60);
+    const paginatedMatches = allMatchingPokemon.slice(offset, offset + limit);
 
     if (paginatedMatches.length === 0) {
-      return [];
+      return { results: [], total };
     }
 
     const detailPromises = paginatedMatches.map(pokemon => {
@@ -44,10 +46,10 @@ export default defineEventHandler(async (event) => {
       thumbnail: detailResponses[index].sprites.other['official-artwork'].front_default,
     }));
 
-    return searchResults;
+    return { results: searchResults, total };
 
   } catch (error) {
-    console.error('Error in Pokémon search API:', error);
+    console.error('Error in Pokemon search API:', error);
     throw createError({
       statusCode: 500,
       statusMessage: 'Failed to execute search.',
